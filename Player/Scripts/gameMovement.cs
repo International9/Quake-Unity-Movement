@@ -170,17 +170,19 @@ public class gameMovement : MonoBehaviour
     {
         Vector3 point = transform.position - Vector3.up * rangeToGround;
         Trace traceHit = Traceist.TraceBox(myColl, point, layerColl);
-
-        if (velocity.y > 8f || traceHit.hitFraction == 1 || Time.time <= nextTimeToJump) // Shoutout To ID For This Magic Number...
-            Grounded = false;
-        else
+        
+        // Shoutout To ID For This Magic Number...
+        if (velocity.y > 5f || traceHit.hitFraction == 1 || Time.time <= nextTimeToJump) 
         {
-            // If Slope Is >45 Degrees - It's Too Steep And The Player Isn't Grounded!
-            Grounded = traceHit.hitNormal.y >= .7f;
-            if (!Grounded) return;
-
-            transform.position = traceHit.hitPoint;
+            Grounded = false;
+            return;
         }
+        
+        // If Slope Is >45 Degrees - It's Too Steep And The Player Isn't Grounded!
+        Grounded = traceHit.hitNormal.y >= .7f;
+        if (!Grounded) return;
+        
+        transform.position = traceHit.hitPoint;
     }
 
     private void GroundMove()
