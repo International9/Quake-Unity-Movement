@@ -25,7 +25,7 @@ congrats, now use it however you want!
 
 
 
-# Potential Issues
+# Potential Issues:
 
 The collision detection helper function 'Traceist.GetOffsetSpawnPoint' which is used to offset the end position 
 of a trace so the player could be immediately spawned there can (under certain circumstances) sometimes fail (probably cause it wasn't written by me).
