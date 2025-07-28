@@ -121,12 +121,14 @@ public class gameMovement : MonoBehaviour
 
         else
             Instance = this;
+            
+        if (!inp) inp = GetComponent<PlayerInput>();
+        moveAction = inp.actions["move"];
+        jumpAction = inp.actions["jump"];
     }
 
     private void OnEnable()
     {
-        moveAction = inp.actions["move"];
-        jumpAction = inp.actions["jump"];
         moveAction.Enable();
         jumpAction.Enable();
     }
@@ -135,12 +137,6 @@ public class gameMovement : MonoBehaviour
     {
         moveAction.Disable();
         jumpAction.Disable();
-    }
-
-    // Executes On The First Frame.
-    private void Start()
-    {
-        if (!inp) inp = GetComponent<PlayerInput>();
     }
 
     private void Update()
