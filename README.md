@@ -1,5 +1,5 @@
 # Quake I Movement In Unity
-An half - assed implementation of the quake I's movement system in the unity engine.
+A half - assed implementation of the quake I's movement system in the unity engine.
 
 The codebase is relatively organized and readable with summaries, comments, regions etc.. so if you want to change something it shouldn't be hard to do so.
 Feel free to use it wherever you want and change whatever you want, you don't have to credit me too.
@@ -22,7 +22,6 @@ these helped me a lot in order to understand the movement system.
 - drag the player prefab from the folder to the scene
 
 congrats, now use it however you want!
-
 
 
 # Potential Issues:
