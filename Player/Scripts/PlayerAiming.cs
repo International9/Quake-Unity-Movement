@@ -7,7 +7,7 @@ public class PlayerAiming : MonoBehaviour
 
     #region Data
 
-    public static float defaultFOV      {get; private set;}
+    public static float defaultFOV      {get; set;}
     public static float xMovement       {get; private set;}
     public static float yMovement       {get; private set;}
     public static Vector2 punchAngle    {get; private set;}
