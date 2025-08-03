@@ -20,16 +20,17 @@ these helped me a lot in order to understand the movement system.
 - download the 'player' folder and drag it into your project
 - make sure there are no other active cameras in the scene (reccomended)
 - drag the player prefab from the folder to the scene
+- make sure that the layers 'layerColl' and 'layerGround' in the main movement script are setup (reccomended)
 
 congrats, now use it however you want!
 
 
 # Potential Issues:
 
-The collision detection helper function 'Traceist.GetOffsetSpawnPoint' which is used to offset the end position 
+The collision detection helper function 'Helper.GetSafeEndPos' which is used to offset the end position 
 of a trace so the player could be immediately spawned there can (under certain circumstances) sometimes fail (probably cause it wasn't written by me).
 
-i haven't managed to pinpoint the problem exactly but if I will in the future i'll definetely update Traceist.cs to make sure this wouldn't happen,
+I haven't managed to pinpoint the problem exactly but if I will in the future i'll definetely update Traceist.cs to make sure this wouldn't happen,
 also, I haven't thoroughly tested every ALL the scenerios to see where the player movement and collision could fail, so i apologize for that.
 
 anyways, if anybody finds issues, problems, errors, fails, etc... please let me know, so I would know to check it out.
