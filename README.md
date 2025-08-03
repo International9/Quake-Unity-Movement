@@ -47,4 +47,4 @@ The movement system, as of currently, support:
 
 and other features for Quake I's 'physics'.
 
-however, the movement system does NOT support any water movement or a 'nudgeplayer' function, you could implement those yourself using the custom trace system in the project and/or the original source code which is linked above.
+however, the movement system does NOT support any water movement or a 'nudgeplayer' function, you could implement those yourself using the custom trace system in the project, helper functions in the project and/or the original source code which is linked above.
