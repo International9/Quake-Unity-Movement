@@ -4,13 +4,15 @@ A half - assed implementation of the quake I's movement system in the unity engi
 The codebase is relatively organized and readable with summaries, comments, regions etc.. so if you want to change something it shouldn't be hard to do so.
 Feel free to use it wherever you want and change whatever you want, you don't have to credit me too.
 
-Another important thing, this project was made using unity 6000.0.25f1 and it utilizes the unity's new input system so take that into consideration when importing it into your project.
+Another important thing - this project was made using unity 6000.0.25f1 and it utilizes unity's new input system so take that into consideration when importing the controller into your project.
 
 # Sources Used:
 
 https://github.com/id-Software/Quake/blob/master/QW/client/pmove.c (original source code)
 
 https://github.com/myria666/qMovementDoc (Quake I movement paper)
+
+etc..
 
 these helped me a lot in order to understand the movement system.
 
@@ -33,7 +35,7 @@ of a trace so the player could be immediately spawned there can (under certain c
 I haven't managed to pinpoint the problem exactly but if I will in the future i'll definetely update Traceist.cs to make sure this wouldn't happen,
 also, I haven't thoroughly tested every ALL the scenerios to see where the player movement and collision could fail, so i apologize for that.
 
-anyways, if anybody finds issues, problems, errors, fails, etc... please let me know, so I would know to check it out.
+if anybody finds issues, problems, errors, fails, etc... please let me know, so I would know to check it out.
 
 
 # Features:
