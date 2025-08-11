@@ -31,7 +31,7 @@ these helped me a lot in order to understand the movement system.
 - drag the player prefab from the folder to the scene
 - make sure that the layers 'layerColl' and 'layerGround' in the main movement script are setup (reccomended)
 
-congrats, now use it however you want!
+congrats, now use it however you want, go crazy!
 
 
 # Potential Issues:
