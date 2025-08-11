@@ -45,7 +45,7 @@ public static class Traceist
             hitObject = hit.transform.gameObject
         };
 
-        // Stole From A Unity Source Movement Project:
+        // Stolen From: https://github.com/Olezen/UnitySourceMovement/blob/master/Modified%20fragsurf/TraceUtil/Tracer.cs#L70
         Ray normalRay = new(hit.point - dir * 0.001f, dir);
         if (hit.collider.Raycast(normalRay, out var normalHit, 0.002f))
             finTrace.hitNormal = normalHit.normal;
@@ -104,3 +104,4 @@ public static class Traceist
     
     #endregion
 }
+
