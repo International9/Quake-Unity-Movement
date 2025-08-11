@@ -115,7 +115,7 @@ public class gameMovement : MonoBehaviour
             layerGround = LayerMask.GetMask(new string[] { "Default" });
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         PlayerMove();
     }
@@ -169,7 +169,7 @@ public class gameMovement : MonoBehaviour
         Vector3 originalvel = data.velocity;
 
         // Adding The Velocity:
-        Vector3 dest = data.origin + data.velocity * Time.deltaTime;
+        Vector3 dest = data.origin + data.velocity * Time.fixedDeltaTime;
         dest.y = data.origin.y;
 
         // Checking If We Can Move:
@@ -239,7 +239,7 @@ public class gameMovement : MonoBehaviour
         int numbumps = 4, numplanes = 0;
         int i, j; // For Velocity Clipping Loops Later.
 
-        float time_left = Time.deltaTime;
+        float time_left = Time.fixedDeltaTime;
 
         for (int bumpcount = 0; bumpcount < numbumps; bumpcount++)
         {
@@ -329,7 +329,7 @@ public class gameMovement : MonoBehaviour
         else
         {
             AirAccelerate(ref data.velocity, wishspeed, movevars.accelerate);
-            data.velocity += movevars.gravity * Time.deltaTime * Vector3.up;
+            data.velocity += movevars.gravity * Time.fixedDeltaTime * Vector3.up;
 
             FlyMove();
         }
@@ -424,7 +424,7 @@ public class gameMovement : MonoBehaviour
         float addspeed = wishspd - currentspeed;
         if (addspeed <= 0) return;
 
-        float accelspeed = accel * Time.deltaTime * wishspd;
+        float accelspeed = accel * Time.fixedDeltaTime * wishspd;
         accelspeed = Mathf.Min(accelspeed, addspeed);
 
         vel.x += accelspeed * data.WishDir.x;
@@ -446,7 +446,7 @@ public class gameMovement : MonoBehaviour
         float addspeed = wishspd - currentspeed;
         if (addspeed <= 0f) return;
 
-        float accelspeed = accel * Time.deltaTime * wishspd;
+        float accelspeed = accel * Time.fixedDeltaTime * wishspd;
         accelspeed = Mathf.Min(accelspeed, addspeed);
 
         vel.x += accelspeed * data.WishDir.x;
@@ -486,7 +486,7 @@ public class gameMovement : MonoBehaviour
             */
 
             control = speed < movevars.stopspeed ? movevars.stopspeed : speed;
-            drop += control * friction * Time.deltaTime;
+            drop += control * friction * Time.fixedDeltaTime;
         }
 
         newspeed = speed - drop;
@@ -500,5 +500,4 @@ public class gameMovement : MonoBehaviour
     #endregion
 
     #endregion
-
 }
