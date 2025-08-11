@@ -52,6 +52,7 @@ The movement system, as of currently, support:
 - jumping
 - stairs
 - slopes
+- triggers (the triggers are handled using a rigidbody on the player)
 
 and other features for Quake I's 'physics'.
 
