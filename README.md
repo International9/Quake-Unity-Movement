@@ -6,7 +6,9 @@ Feel free to use it wherever you want and change whatever you want, you don't ha
 
 Another important thing - this project was made using unity 6000.0.25f1 and it utilizes unity's new input system so take that into consideration when importing the controller into your project.
 
-[https://github.com/](https://github.com/International9/QuakeUnityMovement/Gfx/QuakeUnityMovementGIF_Combined.gif)
+
+![QuakeUnityMovementGIF_Combined](https://github.com/user-attachments/assets/68319b8b-c07a-4f04-9f04-dd07d9db6bdb)
+
 
 # Sources Used:
 
