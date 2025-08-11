@@ -17,6 +17,8 @@ https://github.com/id-Software/Quake/blob/master/QW/client/pmove.c (original sou
 
 https://github.com/myria666/qMovementDoc (Quake I movement paper)
 
+https://github.com/Olezen/UnitySourceMovement (Inspo)
+
 etc..
 
 these helped me a lot in order to understand the movement system.
