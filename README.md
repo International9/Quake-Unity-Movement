@@ -3,7 +3,7 @@ A half - assed implementation of quake I's movement in the unity engine.
 
 which I tried to make as close as possible to the original source code (at least implementation-wise) but the physics also should be accurate.
 
-The codebase is relatively organized and readable with summaries, comments, regions etc.. so if you want to change something it shouldn't be hard to do so.
+The codebase is relatively organized and readable with summaries, comments (from the og source code and mine), regions, sources etc.. so if you want to change something it shouldn't be hard to do so.
 Feel free to use it wherever you want and change whatever you want, you don't have to credit me too.
 
 Another important thing - this project was made using unity 6000.0.25f1 and it utilizes unity's new input system so take that into consideration when importing the controller into your project.
