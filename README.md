@@ -7,6 +7,7 @@ The codebase is relatively organized and readable with summaries, comments (from
 Feel free to use it wherever you want and change whatever you want, you don't have to credit me too.
 
 Another important thing - this project was made using unity 6000.0.25f1 and it utilizes unity's new input system so take that into consideration when importing the controller into your project.
+
 GIF's Kinda Low Quality So Sorry In Advance!
 
 
