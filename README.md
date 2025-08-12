@@ -29,7 +29,7 @@ these helped me a lot in order to understand the movement system.
 
 # How To Use:
 
-- download the 'player' folder and drag it into your project
+- download the 'player' folder and put it in your project
 - make sure there are no other active cameras in the scene (reccomended)
 - drag the player prefab from the folder to the scene
 - make sure that the layers 'layerColl' and 'layerGround' in the main movement script are setup (reccomended)
@@ -42,7 +42,7 @@ congrats, now use it however you want, go crazy!
 The collision detection helper function 'Helpers.GetSafeEndPos' which is used to offset the end position 
 of a trace so the player could be immediately spawned there can (under certain circumstances) sometimes fail (probably cause it wasn't written by me).
 
-I've worked on the controller since and it seems like problems usually refrain from happening but still weird stuff could occur so keep an eye out for that.
+I've worked on the controller since and it seems like problems usually never happen but still weird stuff could occur so keep an eye out for that.
 
 if anybody finds issues, problems, errors, fails, etc... please let me know, so I would know to check it out.
 
@@ -57,6 +57,6 @@ The movement system, as of currently, support:
 - slopes
 - triggers (the triggers are handled using a rigidbody on the player)
 
-and other features for Quake I's 'physics'.
+and other features for Quake I's 'physics' (as with all of the weird tech in the og game)
 
 however, the movement system does NOT support any water movement or a 'nudgeplayer' function, you could implement those yourself using the custom trace system in the project, helper functions (will be added soon) and/or the original source code which is linked above.
