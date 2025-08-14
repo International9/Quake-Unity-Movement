@@ -107,7 +107,7 @@ public class gameMovement : MonoBehaviour
         data.origin = transform.position;
         if (!myColl) myColl = GetComponent<BoxCollider>();
 
-        // Automatic Initializing The Layers In Case They Weren't Beforehand.
+        // Automatically Initializing The Layers In Case They Weren't Beforehand.
         if (layerColl.value == 0)
             layerColl = LayerMask.GetMask(new string[] { "Default" });
 
@@ -504,5 +504,6 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
 
