@@ -396,18 +396,18 @@ public class gameMovement : MonoBehaviour
     public Vector3 ClipVelocity(Vector3 input, Vector3 normal, float overbounce = 1f)
     {
         var output = input;
-        var backoff = Vector3.Dot(output, normal) * overbounce;
+        var backoff = Vector3.Dot(input, normal) * overbounce;
 
         for (int i = 0; i < 3; i++)
         {
             var change = normal[i] * backoff;
-            output[i] = output[i] - change;
+            output[i] = input[i] - change;
 
             if (output[i] > -STOP_EPSILON && output[i] < STOP_EPSILON) output[i] = 0f;
         }
 
-        float adjust = Vector3.Dot(output, normal);
-        if (adjust < 0.0f) output -= normal * adjust;
+        // float adjust = Vector3.Dot(output, normal);
+        // if (adjust < 0.0f) output -= normal * adjust;
 
         return output;
     }
@@ -504,6 +504,7 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
 
 
