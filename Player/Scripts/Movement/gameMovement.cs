@@ -115,6 +115,12 @@ public class gameMovement : MonoBehaviour
             layerGround = LayerMask.GetMask(new string[] { "Default" });
     }
 
+    private void Update()
+	{
+        if ((AutoBhop ? jumpAction.IsPressed() : jumpAction.WasPressedThisFrame()) && data.Grounded)
+            Jump();
+	}
+
     private void FixedUpdate()
     {
         PlayerMove();
@@ -342,9 +348,6 @@ public class gameMovement : MonoBehaviour
     {
         CategorizePosition();
 
-        if ((AutoBhop ? jumpAction.IsPressed() : jumpAction.WasPressedThisFrame()) && data.Grounded)
-            Jump();
-
         Friction(ref data.velocity, movevars.friction);
 
         AirMove();
@@ -501,4 +504,5 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
