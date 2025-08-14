@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Created By: International9
-// Original Source Code: https://github.com/id-Software/Quake/blob/master/QW/client/data.c
+// Original Quake Source Code: https://github.com/id-Software/Quake/blob/master
 
 /// <summary>
 /// A <see cref="MonoBehaviour"/> For An FPS Controller Emulating Quake I's Controller.
@@ -501,3 +501,4 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
