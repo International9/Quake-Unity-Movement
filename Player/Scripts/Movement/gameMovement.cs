@@ -211,10 +211,13 @@ public class gameMovement : MonoBehaviour
 
         moveTrace = Traceist.PlayerMove(myColl, data.origin, dest, layerColl);
 
-        if (moveTrace.hitFraction < 1 && moveTrace.hitNormal.y < .7f)
+        if (/*moveTrace.hitFraction < 1 && */moveTrace.hitNormal.y < .7f)
         {
             data.origin = down;
             data.velocity = downVel;
+
+            transform.position = data.origin;
+            return;
         }
 
         data.origin = moveTrace.hitPoint;
@@ -504,6 +507,7 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
 
 
