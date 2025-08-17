@@ -243,73 +243,116 @@ public class gameMovement : MonoBehaviour
 
     private void FlyMove()
     {
-        Vector3 original_velocity = data.velocity, primal_velocity = data.velocity, end;
+        Vector3 original_velocity = data.velocity;
+        Vector3 primal_velocity   = data.velocity;
+        Vector3 newVelocity       = Vector3.zero; // For 90 Degree Angle Fix.
 
-        int numbumps = 4, numplanes = 0;
-        int i, j; // For Velocity Clipping Loops Later.
+        int numplanes = 0;
+        float timeLeft = Time.fixedDeltaTime;
 
-        float time_left = Time.fixedDeltaTime;
-
-        for (int bumpcount = 0; bumpcount < numbumps; bumpcount++)
+        int i, j; // For Velocity Clipping Loops.
+        
+        for (int bumpcount = 0; bumpcount < 4; bumpcount++)
         {
-            end = Helpers.VectorMa(data.origin, time_left, data.velocity);
-            Trace TraceHit = Traceist.PlayerMove(myColl, data.origin, end, layerColl);
+            Vector3 end = Helpers.VectorMa(data.origin, timeLeft, data.velocity);
+            Trace trace = Traceist.PlayerMove(myColl, data.origin, end, layerColl);
 
-            if (TraceHit.hitFraction > 0f)
+            if (trace.StartSolid)
             {
-                data.origin = TraceHit.hitPoint;
+                data.velocity = Vector3.zero;
+                return;
+            }
+
+            if (trace.hitFraction > 0f)
+            {
+                data.origin = trace.hitPoint;
+                original_velocity = data.velocity;
+
                 numplanes = 0;
             }
 
-            if (TraceHit.hitFraction >= 1)
-                break; // Moved The Entire Distance.
+            if (trace.hitFraction == 1)
+                break;
 
-            time_left -= time_left * TraceHit.hitFraction;
+            timeLeft -= timeLeft * trace.hitFraction;
 
             if (numplanes >= MAX_CLIP_PLANES)
             {
-                // This Shouldn't Really Happen...
                 data.velocity = Vector3.zero;
                 break;
             }
 
-            planes[numplanes++] = TraceHit.hitNormal;
+            planes[numplanes++] = trace.hitNormal;
 
-            for (i = 0; i < numplanes; i++)
+            // print($"Added Plane: {trace.hitObject.name}, Planes Now: {numplanes}, Normal: {trace.hitNormal}");
+            // Debug.DrawLine(trace.hitPoint, trace.hitPoint + trace.hitNormal, Color.red, Mathf.Infinity);
+
+            // QI:  
+
+            //
+            // modify original_velocity so it parallels all of the clip planes
+            //
+
+            // Fix Done By Olezen In: https://github.com/Olezen/UnitySourceMovement/blob/master/Modified%20fragsurf/Movement/SurfPhysics.cs#L350
+            //
+            // reflect player velocity 
+            // Only give this a try for first impact plane because you can get yourself stuck in an acute corner by jumping in place
+            //  and pressing forward and nobody was really using this bounce/reflection feature anyway...
+            if (numplanes == 1)
             {
-                data.velocity = ClipVelocity(original_velocity, planes[i]);
-                for (j = 0; j < numplanes; j++)
-                {
-                    if (j != i)
-                    {
-                        if (Vector3.Dot(data.velocity, planes[j]) < 0)
-                            break;
-                    }
-                }
+                // if (planes[0].y > .7f) return; // <-- This Disallows Surfing!
+                ClipVelocity(original_velocity, planes[0], ref newVelocity, 1f);
 
-                if (j == numplanes)
-                    break;
+                data.velocity = newVelocity;
+                original_velocity = newVelocity;
             }
 
-            if (i == numplanes)
+            else
             {
-                if (numplanes != 2)
+                for (i = 0; i < numplanes; i++)
+                {
+                    ClipVelocity(original_velocity, planes[i], ref data.velocity, 1);
+
+                    for (j = 0; j < numplanes; j++)
+                        if (j != i)
+                        {
+                            if (Vector3.Dot(data.velocity, planes[j]) < 0)
+                                break; // not ok
+                        }
+
+                    if (j == numplanes)
+                        break;
+                }
+
+                if (i != numplanes)
+                {   // QI: go along this plane 
+                }
+                else
+                {   // QI: go along the crease
+
+                    if (numplanes != 2)
+                    {
+                        data.velocity = Vector3.zero;
+                        break;
+                    }
+
+                    Vector3 dir = Vector3.Cross(planes[0], planes[1]);
+                    float d = Vector3.Dot(dir, data.velocity);
+
+                    data.velocity = dir.normalized * d;
+                }
+
+                // QI:
+
+                //
+                // if original velocity is against the original velocity, stop dead
+                // to avoid tiny occilations in sloping corners
+                //
+                if (Vector3.Dot(data.velocity, primal_velocity) <= 0f)
                 {
                     data.velocity = Vector3.zero;
                     break;
                 }
-
-                Vector3 dir = Vector3.Cross(planes[0], planes[1]);
-                float d = Vector3.Dot(dir, data.velocity);
-
-                data.velocity = dir * d;
-            }
-
-            // Tiny Oscilation Avoidance.
-            if (Vector3.Dot(data.velocity, primal_velocity) <= 0f)
-            {
-                data.velocity = Vector3.zero;
-                break;
             }
         }
 
@@ -507,6 +550,7 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
 
 
