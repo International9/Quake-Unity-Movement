@@ -6,6 +6,8 @@ which I tried to make as close as possible to the original source code (at least
 The codebase is relatively organized and readable with summaries, comments (from the og source code and mine), regions, sources etc.. so if you want to change something it shouldn't be hard to do so.
 Feel free to use it wherever you want and change whatever you want, you don't have to credit me too.
 
+VERY IMPORTANT - read the section 'Potential Issues' carefully before working with the controller!
+
 Another important thing - this project was made using unity 6000.0.25f1 and it utilizes unity's new input system so take that into consideration when importing the controller into your project.
 
 GIF's Kinda Low Quality So Sorry In Advance!
@@ -39,13 +41,18 @@ congrats, now use it however you want, go crazy!
 
 # Potential Issues:
 
-The collision detection helper function 'Helpers.GetSafeEndPos' which is used to offset the end position 
-of a trace so the player could be immediately spawned there can (under certain circumstances) sometimes fail (probably cause it wasn't written by me).
+IMPORTANT: When building out your levels, because the movement and velocity clipping are dependent on accurate normals - use primitive collider for 
+100% accurate normals. unity calculates the normal from boxcast (and other cast functions) on mesh colliders (convex and concave) using an approximation which may 
+not be accurate all the time. meaning collisions my fail often an at acute (90 degree) angles the controller may even freeze so take this into deep consideration
 
-I've worked on the controller since and it seems like problems usually never happen but still weird stuff could occur so keep an eye out for that.
 
-if anybody finds issues, problems, errors, fails, etc... please let me know, so I would know to check it out.
+if you'd like more details about normal calculation in unity you can check it out here: https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html
 
+luckily - this only happens on walls in the function FlyMove, so if you're using a gameobject with a mesh collider it shouldn't give out any little errors at all.
+as such - primitive colliders work very well and smooth and shouldn't have any problems.
+
+
+if there are any issues please report them so i could invastigate, thanks!  
 
 # Features:
 
