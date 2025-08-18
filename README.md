@@ -1,7 +1,7 @@
 # Quake I Movement In Unity
 An implementation of quake I's movement in the unity engine.
 
-which I tried to make as close as possible to the original source code (at least implementation-wise) but the physics also should be accurate, as such - tech from the original game should also exist.
+which I tried to make as close as possible to the original source code (at least implementation-wise) but the physics also should be accurate, as such - tech from the original game is also possible.
 
 The codebase is relatively organized and readable with summaries, comments, regions, sources etc.. so if you want to change something it shouldn't be hard to do so.
 Feel free to use it however the MIT license allows you to.
