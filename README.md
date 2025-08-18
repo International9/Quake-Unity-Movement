@@ -1,14 +1,18 @@
 # Quake I Movement In Unity
-A half - assed implementation of quake I's movement in the unity engine.
+An implementation of quake I's movement in the unity engine.
 
-which I tried to make as close as possible to the original source code (at least implementation-wise) but the physics also should be accurate.
+which I tried to make as close as possible to the original source code (at least implementation-wise) but the physics also should be accurate. 
 
-The codebase is relatively organized and readable with summaries, comments (from the og source code and mine), regions, sources etc.. so if you want to change something it shouldn't be hard to do so.
-Feel free to use it wherever you want and change whatever you want, you don't have to credit me too.
+The codebase is relatively organized and readable with summaries, comments, regions, sources etc.. so if you want to change something it shouldn't be hard to do so.
+Feel free to use it however the MIT license allows you to.
 
 VERY IMPORTANT - read the section 'Potential Issues' carefully before working with the controller!
 
 Another important thing - this project was made using unity 6000.0.25f1 and it utilizes unity's new input system so take that into consideration when importing the controller into your project.
+
+a bit more about accuracy:
+
+it is important to state however that despite it's accuracy to the original movement controller - I did actually take some creative liberties due to the fact that the code was written in different language and was developed for a different engine and for the user to have quality of life options. it does not reduce from its accuracy at all, only the way the end user can interact with the codebase provided and its compatibility with the unity game engine.
 
 GIF's Kinda Low Quality So Sorry In Advance!
 
