@@ -46,7 +46,7 @@ congrats, now use it however you want, go crazy!
 # Potential Issues:
 
 IMPORTANT: When building out your levels, because the movement and velocity clipping are dependent on accurate normals - use primitive collider for 
-100% accurate normals. unity calculates the normal from boxcast (and other cast functions) on mesh colliders (convex and concave) using an approximation which may 
+100% accurate normals. unity calculates the normal from boxcast (and other cast functions) on mesh colliders using an approximation (for non convex however it uses interpolate normals) which may 
 not be accurate all the time. meaning collisions may often be very buggy and inconsistent at walls or acute (90 degree) angles so take this into consideration
 
 
