@@ -468,9 +468,6 @@ public class gameMovement : MonoBehaviour
             if (output[i] > -STOP_EPSILON && output[i] < STOP_EPSILON)
                 output[i] = 0f;
         }
-
-        // float adjust = Vector3.Dot(output, normal);
-        // if (adjust < 0.0f) output -= normal * adjust;
     }
 
     /// <summary>
@@ -565,3 +562,4 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
