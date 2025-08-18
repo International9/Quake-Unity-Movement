@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Created By: International9
-// Original Quake Source Code: https://github.com/id-Software/Quake/blob/master
+// Original Source Code Used: https://github.com/id-Software/Quake/blob/master
 
 /// <summary>
 /// A <see cref="MonoBehaviour"/> For An FPS Controller Emulating Quake I's Controller.
@@ -13,11 +13,14 @@ public class gameMovement : MonoBehaviour
 
     #region Globals
 
-    [Tooltip("To Enforce A Singular Static Instance Of gameMovement In Awake.")]
-    [SerializeField] private bool OneInstance = true;
+    [field: Tooltip("To Enforce A Singular Static Instance Of gameMovement In Awake.")]
+    [field: SerializeField] public bool OneInstance { get; private set; } = true;
 
     [Tooltip("Option To Hold The Jump Key To Jump Without Having To Manually Press Everytime.")]
     [SerializeField] private bool AutoBhop = true;
+
+    [Tooltip("Draw Gizmos Of Player Bouding Box In The Editor?")]
+    [SerializeField] private bool DrawGizmos = true;
 
     
 
@@ -56,9 +59,6 @@ public class gameMovement : MonoBehaviour
 
     private InputAction moveAction, jumpAction;
 
-    // NOTE: Unused.
-    // private Vector3 player_mins => -(myColl.size * .5f);
-
     #endregion
 
 
@@ -85,6 +85,7 @@ public class gameMovement : MonoBehaviour
             Instance = this;
 
         if (!inp) inp = GetComponent<PlayerInput>();
+        data.OriginalPosition = transform.position;
     }
 
     private void OnEnable()
@@ -107,7 +108,7 @@ public class gameMovement : MonoBehaviour
         data.origin = transform.position;
         if (!myColl) myColl = GetComponent<BoxCollider>();
 
-        // Automatically Initializing The Layers In Case They Weren't Beforehand.
+        // Automatic Initializing The Layers In Case They Weren't Beforehand.
         if (layerColl.value == 0)
             layerColl = LayerMask.GetMask(new string[] { "Default" });
 
@@ -116,10 +117,10 @@ public class gameMovement : MonoBehaviour
     }
 
     private void Update()
-	{
+    {
         if ((AutoBhop ? jumpAction.IsPressed() : jumpAction.WasPressedThisFrame()) && data.Grounded)
             Jump();
-	}
+    }
 
     private void FixedUpdate()
     {
@@ -128,6 +129,8 @@ public class gameMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!DrawGizmos) return;
+        
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, myColl.size);
     }
@@ -202,7 +205,7 @@ public class gameMovement : MonoBehaviour
         dest.y += stepHeight;
 
         moveTrace = Traceist.PlayerMove(myColl, data.origin, dest, layerColl);
-        data.origin = moveTrace.hitPoint;
+        if (!moveTrace.StartSolid) data.origin = moveTrace.hitPoint;
 
         FlyMove();
 
@@ -220,7 +223,7 @@ public class gameMovement : MonoBehaviour
             return;
         }
 
-        data.origin = moveTrace.hitPoint;
+        if (!moveTrace.StartSolid) data.origin = moveTrace.hitPoint;
         Vector3 up = data.origin;
 
         float downdist = Vector3.Distance(down, original);
@@ -238,7 +241,7 @@ public class gameMovement : MonoBehaviour
         transform.position = data.origin;
     }
 
-    const int MAX_CLIP_PLANES = 5;
+    private const int MAX_CLIP_PLANES = 5;
     private readonly Vector3[] planes = new Vector3[MAX_CLIP_PLANES];
 
     private void FlyMove()
@@ -358,7 +361,7 @@ public class gameMovement : MonoBehaviour
 
         transform.position = data.origin;
     }
-
+    
     private void AirMove()
     {
         Vector2 moveDir = moveAction.ReadValue<Vector2>();
@@ -367,10 +370,11 @@ public class gameMovement : MonoBehaviour
         data.Vertical = moveDir.y;
 
         Vector3 wishvel = forwardSpeed * data.Vertical * transform.forward + sideSpeed * data.Horizontal * transform.right;
-        
-        // Not Using Helpers.VectorNormalize Here Cuz It Kinda Sucks Ngl..
-        float wishspeed = Mathf.Min(movevars.maxspeed, wishvel.magnitude);
-        data.WishDir = wishvel.normalized;
+
+        float wishspeed = Helpers.VectorNormalize(ref wishvel);
+        if (wishspeed > movevars.maxspeed) wishspeed = movevars.maxspeed;
+
+        data.WishDir = wishvel;
 
         if (data.Grounded)
         {
@@ -426,11 +430,24 @@ public class gameMovement : MonoBehaviour
     {
         if (Time.time < nextTimeToJump || !data.Grounded) return;
 
-        Instance.nextTimeToJump = Time.time + Instance.jumpCooldown;
+        nextTimeToJump = Time.time + jumpCooldown;
         data.velocity.y += Instance.jumpForce;
     }
 
-    const float STOP_EPSILON = .05f;
+    /// <summary>
+    /// Sets The Player's Jumping Cooldown.
+    /// </summary>
+    public void SetJumpCooldown()
+        => nextTimeToJump = Time.time + jumpCooldown;
+
+    /// <summary>
+    /// Sets The Player's Jumping Cooldown.
+    /// </summary>
+    /// <param name="cooldwon"> The Cooldown (In Seconds) </param>
+    public void SetJumpCooldown(float cooldwon)
+        => nextTimeToJump = Time.time + cooldwon;
+
+    const float STOP_EPSILON = 1e-6f;
 
     /// <summary>
     /// A Function To Clip The Input Velocity Depending On A Normal Vector.
@@ -439,23 +456,21 @@ public class gameMovement : MonoBehaviour
     /// <param name="normal"> The Normal Vector. </param>
     /// <param name="overbounce"> Overbounce To Overshoot The Output Velocity. </param>
     /// <returns> The Manipulated Slided Velocity. </returns>
-    public Vector3 ClipVelocity(Vector3 input, Vector3 normal, float overbounce = 1f)
+    public void ClipVelocity(Vector3 input, Vector3 normal, ref Vector3 output, float overbounce = 1f)
     {
-        var output = input;
-        var backoff = Vector3.Dot(input, normal) * overbounce;
+        float backoff = Vector3.Dot(input, normal) * overbounce;
 
         for (int i = 0; i < 3; i++)
         {
-            var change = normal[i] * backoff;
+            float change = normal[i] * backoff;
             output[i] = input[i] - change;
 
-            if (output[i] > -STOP_EPSILON && output[i] < STOP_EPSILON) output[i] = 0f;
+            if (output[i] > -STOP_EPSILON && output[i] < STOP_EPSILON)
+                output[i] = 0f;
         }
 
         // float adjust = Vector3.Dot(output, normal);
         // if (adjust < 0.0f) output -= normal * adjust;
-
-        return output;
     }
 
     /// <summary>
@@ -550,9 +565,3 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
-
-
-
-
-
-
