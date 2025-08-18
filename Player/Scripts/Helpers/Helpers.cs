@@ -15,19 +15,10 @@ public static class Helpers
     /// <returns> The Point Of The Trace But Offseted To Fit The Player. </returns>
     public static Vector3 GetOffsetSpawnPoint(Vector3 org, Vector3 dest, float hitDistance, float skin = .05f)
     {
-        Vector3 originCenter = org;
-        Vector3 dir = dest - originCenter;
+        float safeDist = Mathf.Max(0f, hitDistance - skin);
+        Vector3 dir = (dest - org).normalized;
 
-        float len = dir.magnitude;
-        if (len < 1e-6f) return org;
-
-        dir /= len;
-
-        float move = Mathf.Max(0f, hitDistance - skin);
-        Vector3 newCenter = originCenter + dir * move;
-
-        Vector3 delta = newCenter - originCenter;
-        return org + delta;
+        return org + dir * safeDist;
     }
 
     /// <summary>
@@ -62,3 +53,4 @@ public static class Helpers
         return length;
     }
 }
+
