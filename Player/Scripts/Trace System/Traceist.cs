@@ -18,15 +18,25 @@ public static class Traceist
     /// <param name="layerMask"> The Layermasks The Trace Can Collide With. </param>
     /// <param name="trigInter"> The Trigger Interaction Of The Trace. </param>
     /// <returns> A Trace Struct With All Of The Hit Information </returns>
-    public static Trace TraceBox(Vector3 origin, Vector3 halfExtents, Vector3 dest, Quaternion rotation, int layerMask, QueryTriggerInteraction trigInter = QueryTriggerInteraction.Ignore)
+    public static Trace TraceBox(Vector3 origin, Vector3 halfExtents, Vector3 dest, Quaternion rotation, int layerMask, QueryTriggerInteraction trigInter = QueryTriggerInteraction.Ignore, bool offsetPosition = true)
     {
-        var delta = dest - origin;
-        var dist = delta.magnitude;
-        var dir = delta.normalized;
+        Vector3 delta = dest - origin;
+        Vector3 dir = delta.normalized;
+        float dist = delta.magnitude;
 
-        // Default Trace:
+        // Default Trace Init:
         Trace finTrace = Trace.defaultTrace;
         finTrace.hitPoint = dest;
+
+        // In Case The Trace Starts Inside Of A Solid (May Not Work If The Collider Is FULLY Inside Of A Solid!)
+        if (Physics.CheckBox(origin, halfExtents, rotation, layerMask, trigInter))
+        {
+            finTrace.hitFraction = 0f;
+            finTrace.StartSolid = true;            
+            finTrace.hitPoint = origin;
+
+            return finTrace;
+        }
 
         bool traced = Physics.BoxCast
         (
@@ -39,17 +49,13 @@ public static class Traceist
 
         finTrace = new()
         {
+            StartSolid = false,
             hitFraction = hit.distance / dist,
-            hitPoint = Helpers.GetOffsetSpawnPoint(origin, dest, hit.distance),
+            hitPoint = offsetPosition ? Helpers.GetOffsetSpawnPoint(origin, dest, hit.distance) : hit.point,
             hitNormal = hit.normal,
             hitObject = hit.transform.gameObject
         };
-
-        // Stolen From: https://github.com/Olezen/UnitySourceMovement/blob/master/Modified%20fragsurf/TraceUtil/Tracer.cs#L70
-        Ray normalRay = new(hit.point - dir * 0.001f, dir);
-        if (hit.collider.Raycast(normalRay, out var normalHit, 0.002f))
-            finTrace.hitNormal = normalHit.normal;
-
+        
         return finTrace;
     }
 
@@ -104,4 +110,5 @@ public static class Traceist
     
     #endregion
 }
+
 
