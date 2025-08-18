@@ -13,6 +13,11 @@ using UnityEngine;
 public struct Trace
 {   
     /// <summary>
+    /// A Bool To Signify If The Trace Has Started While It Was Inside Of A Solid, If So, This Is True. Otherwise - It Is False.
+    /// </summary>
+    public bool StartSolid;
+    
+    /// <summary>
     /// The Fraction Of Where The Trace Hit On The Ray.
     /// </summary>
     public float hitFraction;
@@ -43,4 +48,5 @@ public struct Trace
         hitObject = null
     };
 }
+
 
