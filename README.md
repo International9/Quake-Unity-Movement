@@ -47,7 +47,8 @@ congrats, now use it however you want, go crazy!
 
 IMPORTANT: When building out your levels, because the movement and velocity clipping are dependent on accurate normals - use primitive collider for 
 100% accurate normals. unity calculates the normal from boxcast (and other cast functions) on mesh colliders (convex and concave) using an approximation which may 
-not be accurate all the time. meaning collisions my fail often an at acute (90 degree) angles the controller may even freeze so take this into deep consideration
+not be accurate all the time. meaning collisions may often be very buggy and inconsistent at walls or acute (90 degree) angles so take this into consideration
+
 
 
 if you'd like more details about normal calculation in unity you can check it out here: https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html
@@ -66,8 +67,8 @@ The movement system, as of currently, support:
 - jumping
 - stairs
 - slopes
-- triggers (the triggers are handled using a rigidbody on the player)
+- triggers (handled using a rigidbody on the player)
 
 and other features for Quake I's 'physics' (as with all of the weird tech in the og game)
 
-however, the movement system does NOT support any water movement or a 'nudgeplayer' function, you could implement those yourself using the custom trace system in the project, helper functions (will be added soon) and/or the original source code which is linked above.
+however, the movement system does NOT support any water movement or a 'nudgeplayer' function, you could implement those yourself using the custom trace system in the project, helper functions and/or the sources which are linked above.
