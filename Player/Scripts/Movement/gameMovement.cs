@@ -151,7 +151,7 @@ public class gameMovement : MonoBehaviour
 
     #region Physics
 
-    private void CategorizePosition()
+    private void CheckGround()
     {
         Vector3 point = data.origin - Vector3.up * rangeToGround;
         Trace traceHit = Traceist.PlayerMove(myColl, data.origin, point, layerGround);
@@ -290,12 +290,6 @@ public class gameMovement : MonoBehaviour
             // print($"Added Plane: {trace.hitObject.name}, Planes Now: {numplanes}, Normal: {trace.hitNormal}");
             // Debug.DrawLine(trace.hitPoint, trace.hitPoint + trace.hitNormal, Color.red, Mathf.Infinity);
 
-            // QI:  
-
-            //
-            // modify original_velocity so it parallels all of the clip planes
-            //
-
             // Fix Done By Olezen In: https://github.com/Olezen/UnitySourceMovement/blob/master/Modified%20fragsurf/Movement/SurfPhysics.cs#L350
             //
             // reflect player velocity 
@@ -327,12 +321,8 @@ public class gameMovement : MonoBehaviour
                         break;
                 }
 
-                if (i != numplanes)
-                {   // QI: go along this plane 
-                }
-                else
-                {   // QI: go along the crease
-
+                if (i == numplanes)
+                {
                     if (numplanes != 2)
                     {
                         data.velocity = Vector3.zero;
@@ -345,12 +335,7 @@ public class gameMovement : MonoBehaviour
                     data.velocity = dir.normalized * d;
                 }
 
-                // QI:
-
-                //
-                // if original velocity is against the original velocity, stop dead
-                // to avoid tiny occilations in sloping corners
-                //
+				// Tiny Oscilation Avoidance.
                 if (Vector3.Dot(data.velocity, primal_velocity) <= 0f)
                 {
                     data.velocity = Vector3.zero;
@@ -396,13 +381,13 @@ public class gameMovement : MonoBehaviour
     // The Player's Main Movement Loop.
     private void PlayerMove()
     {
-        CategorizePosition();
+        CheckGround();
 
         Friction(ref data.velocity, movevars.friction);
 
         AirMove();
 
-        CategorizePosition();
+        CheckGround();
 
         transform.position = data.origin;
     }
@@ -430,7 +415,7 @@ public class gameMovement : MonoBehaviour
     {
         if (Time.time < nextTimeToJump || !data.Grounded) return;
 
-        nextTimeToJump = Time.time + jumpCooldown;
+        SetJumpCooldown();
         data.velocity.y += Instance.jumpForce;
     }
 
@@ -450,7 +435,7 @@ public class gameMovement : MonoBehaviour
     const float STOP_EPSILON = 1e-6f;
 
     /// <summary>
-    /// A Function To Clip The Input Velocity Depending On A Normal Vector.
+    /// A Function To Clip The Input Velocity Depending On A Normal Vector So It Slides Off The Normal.
     /// </summary>
     /// <param name="input"> The Incoming Velocity. </param>
     /// <param name="normal"> The Normal Vector. </param>
@@ -459,12 +444,11 @@ public class gameMovement : MonoBehaviour
     public void ClipVelocity(Vector3 input, Vector3 normal, ref Vector3 output, float overbounce = 1f)
     {
         float backoff = Vector3.Dot(input, normal) * overbounce;
+        float change = normal * backoff;
+        output = input - change;
 
         for (int i = 0; i < 3; i++)
         {
-            float change = normal[i] * backoff;
-            output[i] = input[i] - change;
-
             if (output[i] > -STOP_EPSILON && output[i] < STOP_EPSILON)
                 output[i] = 0f;
         }
@@ -562,4 +546,5 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
