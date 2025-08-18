@@ -12,7 +12,7 @@ Another important thing - this project was made using unity 6000.0.25f1 and it u
 
 a bit more about accuracy:
 
-it is important to state however that despite it's accuracy to the original movement controller - I did actually take some creative liberties due to the fact that the code was written in different language and was developed for a different engine and for the user to have quality of life options. it does not reduce from its accuracy at all, only the way the end user can interact with the codebase provided and its compatibility with the unity game engine.
+it is important to state that despite it's accuracy to the original movement controller - I did actually take some creative liberties due to the fact that the code was written in a different language and engine, and for the user to have quality of life options. it does not reduce from its accuracy at all, only the way the end user can interact with the codebase provided and its compatibility with the unity game engine. (that also doesn't mean that I copied the code/implementation 1:1 everywhere)
 
 GIF's Kinda Low Quality So Sorry In Advance!
 
