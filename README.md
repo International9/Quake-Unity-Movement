@@ -53,8 +53,9 @@ not be accurate all the time. meaning collisions may often be very buggy and inc
 
 if you'd like more details about normal calculation in unity you can check it out here: https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html
 
-luckily - this only happens on walls in the function FlyMove, so if you're using a gameobject with a mesh collider it shouldn't give out any little errors at all.
-as such - primitive colliders work very well and smooth and shouldn't have any problems.
+luckily - this only happens on walls in the function FlyMove, so if you're using a gameobject with a mesh collider as a floor for example it shouldn't give out any errors at all.
+
+as such - primitive colliders still work the best with the controller and shouldn't have any problems.
 
 
 if there are any issues please report them so i could invastigate, thanks!  
