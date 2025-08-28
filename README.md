@@ -70,6 +70,6 @@ The movement system, as of currently, support:
 - slopes
 - triggers (handled using a rigidbody on the player)
 
-and other features for Quake I's 'physics' (as with all of the weird tech in the og game)
+and other features for Quake I's 'physics' (as wall as all of the weird tech in the og game)
 
 however, the movement system does NOT support any water movement or a 'nudgeplayer' function, you could implement those yourself using the custom trace system in the project, helper functions and/or the sources which are linked above.
