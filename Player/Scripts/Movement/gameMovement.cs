@@ -162,7 +162,7 @@ public class gameMovement : MonoBehaviour
             return;
         }
 
-        // If Slope Is >45 Degrees - It's Too Steep And The Player Isn't data.Grounded!
+        // If Slope Is >45 Degrees - It's Too Steep And The Player Isn't Grounded!
         data.Grounded = traceHit.hitNormal.y >= .7f;
         if (!data.Grounded) return;
 
@@ -503,7 +503,7 @@ public class gameMovement : MonoBehaviour
     /// </summary>
     /// <param name="vel"> The Velocity To Be Scaled. </param>
     /// <param name="frictionAmount"> The Friction Amount. </param>
-    /// <param name="stopSpeed"> The Threshold To Finish The Scaling. </param>
+    /// <param name="stopThreshold"> The Threshold To Finish The Scaling. </param>
     public void Friction(ref Vector3 vel, float frictionAmount, float stopThreshold = .1f)
     {
         float speed = vel.magnitude, newspeed, control;
@@ -546,5 +546,6 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
 
