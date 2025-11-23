@@ -85,7 +85,6 @@ public class gameMovement : MonoBehaviour
             Instance = this;
 
         if (!inp) inp = GetComponent<PlayerInput>();
-        data.OriginalPosition = transform.position;
     }
 
     private void OnEnable()
@@ -546,6 +545,7 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
 
 
