@@ -443,10 +443,11 @@ public class gameMovement : MonoBehaviour
     public void ClipVelocity(Vector3 input, Vector3 normal, ref Vector3 output, float overbounce = 1f)
     {
         float backoff = Vector3.Dot(input, normal) * overbounce;
-        float change = normal * backoff;
-        output = input - change;
+        Vector3 change = normal * backoff;
 
-        for (int i = 0; i < 3; i++)
+        output = input - change;
+        
+		for (int i = 0; i < 3; i++)
         {
             if (output[i] > -STOP_EPSILON && output[i] < STOP_EPSILON)
                 output[i] = 0f;
@@ -545,6 +546,7 @@ public class gameMovement : MonoBehaviour
 
     #endregion
 }
+
 
 
 
